@@ -12,7 +12,6 @@ import {
 import { useState } from "react";
 import { IoShuffleOutline } from "react-icons/io5";
 import { generateUserData } from "./components/utils/generateUserData";
-import { generateUserError } from "./components/utils/generateUserError";
 import { CSVLink } from "react-csv";
 
 function App() {
@@ -21,7 +20,6 @@ function App() {
   const [region, setRegion] = useState("en");
   const [seed, setSeed] = useState(8759863);
   const [data, setData] = useState(generateUserData(region, 10, seed));
-
   const [currentPage, setCurrentPage] = useState(1);
   const [currentPaginPage, setCurrentPaginPage] = useState(1);
 
@@ -78,27 +76,13 @@ function App() {
   const handleSliderChange = (value) => {
     setSliderValue(value);
     setInputValue(value);
-    const newData = data.map((item) => ({
-      ...item,
-      name: generateUserError(item.name, value, seed),
-      address: generateUserError(item.address, value, seed),
-      phone: generateUserError(item.phone, value, seed),
-    }));
-
-    setData(newData);
+    setData(generateUserData(region, 30, seed, value));
   };
 
   const handleInputChange = (value) => {
     setInputValue(value);
     setSliderValue(Math.floor(value / 100));
-    const newData = data.map((item) => ({
-      ...item,
-      name: generateUserError(item.name, value, seed),
-      address: generateUserError(item.address, value, seed),
-      phone: generateUserError(item.phone, value, seed),
-    }));
-
-    setData(newData);
+    setData(generateUserData(region, 30, seed, value));
   };
 
   const handleSeedChange = (value) => {
